@@ -174,6 +174,36 @@
       .morph-row { flex-wrap: wrap; justify-content: center; }
       model-viewer { min-width: 100px; height: 120px; }
     }
+  /* 让 Poster 覆盖整个区域 */
+  .custom-poster {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: cover; /* 确保图片铺满 */
+  }
+  
+  /* 按钮样式 */
+  .poster-btn {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    pointer-events: auto; /* 关键：确保能被点到 */
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+  
+  .poster-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
   </style>
 </head>
 <body>
@@ -267,8 +297,8 @@
             
             <div class="morph-row">
               <div class="row-title">Preserve<br>Source</div>
-              <model-viewer src="./static/models/magic_castle/m1_0.glb" poster="./static/models/magic_castle/m1_0.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_1.glb" poster="./static/models/magic_castle/m1_1.png"  exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
+              <model-viewer src="./static/models/magic_castle/m1_0.glb" poster="./static/models/magic_castle/m1_0.png" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg"><div slot="poster" class="custom-poster"><div class="poster-btn"><i class="fas fa-cube"></i> Click to View 3D</div></div></model-viewer>
+              <model-viewer src="./static/models/magic_castle/m1_1.glb" poster="./static/models/magic_castle/m1_1.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
               <model-viewer src="./static/models/magic_castle/m1_2.glb" poster="./static/models/magic_castle/m1_2.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 2m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
               <model-viewer src="./static/models/magic_castle/m1_3.glb" poster="./static/models/magic_castle/m1_3.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
               <model-viewer src="./static/models/magic_castle/m1_4.glb" poster="./static/models/magic_castle/m1_4.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
