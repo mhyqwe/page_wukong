@@ -38,7 +38,7 @@
     .btn:hover { background-color: #555; }
 
     /* --- 图片样式 --- */
-    img.responsive-img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    img.responsive-img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: none; }
     .abstract-box { background: #f5f5f5; padding: 30px; border-radius: 10px; text-align: justify; max-width: 800px; margin: 0 auto; }
     .caption { font-size: 0.9rem; color: #666; margin-top: 10px; }
 
@@ -47,7 +47,7 @@
     .morph-grid-container { display: flex; align-items: center; gap: 10px; justify-content: center; }
 
     /* 左右侧图片栏 */
-    .side-col { width: 120px; display: flex; flex-direction: column; align-items: center; text-align: center; font-weight: bold; font-size: 0.9rem; }
+    .side-col { width: 80px; display: flex; flex-direction: column; align-items: center; text-align: center; font-weight: bold; font-size: 0.9rem; }
     .side-col img { width: 100%; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 5px; }
 
     /* 中间 3D 展示栏 */
@@ -58,7 +58,7 @@
     .row-title {
       writing-mode: vertical-rl; transform: rotate(180deg);
       font-size: 0.75rem; font-weight: bold; color: #555;
-      width: 25px; text-align: center; white-space: nowrap;
+      width: auto; min-width: 30px; margin-right: 10px; text-align: center; white-space: nowrap;
     }
 
     /* --- 🌟 交互式格子 (Facade Pattern) --- */
@@ -301,7 +301,7 @@
           src="${glbUrl}" 
           exposure="3.0" 
           shadow-intensity="0" 
-          camera-orbit="0deg 75deg auto" 
+          camera-orbit="0deg 75deg 3.0m" 
           camera-controls 
           auto-rotate
           touch-action="pan-y">
