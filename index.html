@@ -11,199 +11,93 @@
   
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
 
-  <style>
-    /* --- Basic Reset & Typography --- */
+<style>
+    /* --- 基础设置 --- */
     body {
       font-family: 'Noto Sans', sans-serif;
       background-color: #ffffff;
       color: #4a4a4a;
-      line-height: 1.5;
       margin: 0;
+      padding: 0;
+      line-height: 1.5;
     }
     
-    h1, h2, h3 { font-family: 'Google Sans', sans-serif; color: #363636; text-align: center; }
-    h1 { font-size: 2.5rem; margin-top: 40px; margin-bottom: 10px; }
-    h2 { font-size: 1.75rem; margin-top: 30px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    h1, h2 { font-family: 'Google Sans', sans-serif; color: #363636; text-align: center; }
+    h1 { font-size: 2.5rem; margin-top: 40px; }
+    h2 { font-size: 1.75rem; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
     
-    a { color: #3273dc; text-decoration: none; }
-    a:hover { color: #363636; }
-
-    /* --- Layout Wrapper --- */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .content-block { margin-bottom: 50px; text-align: center; }
     
-    .content-block {
-      margin-bottom: 50px;
-      text-align: center;
-    }
-
-    /* --- Authors & Buttons --- */
-    .authors { font-size: 1.2rem; margin-bottom: 20px; }
-    .affiliations { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
-    
-    .link-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 40px;
-    }
-    
+    /* --- 按钮与链接 --- */
+    .link-buttons { display: flex; justify-content: center; gap: 15px; margin: 20px 0 40px; }
     .btn {
-      background-color: #363636;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-weight: 600;
-      transition: background-color 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background-color: #363636; color: white; padding: 10px 20px; border-radius: 30px;
+      text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;
     }
-    .btn:hover { background-color: #555; color: #fff; }
-    .btn-disabled { background-color: #ccc; cursor: not-allowed; }
+    .btn:hover { background-color: #555; }
 
-    /* --- Images & Captions --- */
-    img.responsive-img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+    /* --- 图片样式 --- */
+    img.responsive-img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .abstract-box { background: #f5f5f5; padding: 30px; border-radius: 10px; text-align: justify; max-width: 800px; margin: 0 auto; }
+    .caption { font-size: 0.9rem; color: #666; margin-top: 10px; }
+
+    /* --- 核心：Morphing Grid 布局 --- */
+    .morph-case { margin-bottom: 60px; border-bottom: 1px solid #eee; padding-bottom: 40px; }
+    .morph-grid-container { display: flex; align-items: center; gap: 10px; justify-content: center; }
+
+    /* 左右侧图片栏 */
+    .side-col { width: 120px; display: flex; flex-direction: column; align-items: center; text-align: center; font-weight: bold; font-size: 0.9rem; }
+    .side-col img { width: 100%; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 5px; }
+
+    /* 中间 3D 展示栏 */
+    .center-col { flex-grow: 1; display: flex; flex-direction: column; gap: 10px; max-width: 900px; }
+    .morph-row { display: flex; align-items: center; gap: 5px; }
     
-    .caption {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 10px;
-      text-align: justify;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* --- Abstract Box --- */
-    .abstract-box {
-      background-color: #f5f5f5;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: justify;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    /* --- 3D Morphing Grid Layout (Core Feature) --- */
-    .morph-case {
-      margin-bottom: 60px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 40px;
-    }
-
-    .morph-grid-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      justify-content: center;
-    }
-
-    /* Side Columns (Source/Target Images) */
-    .side-col {
-      width: 12%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .side-col img {
-      width: 100%;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-    }
-    .side-label {
-      font-weight: bold;
-      margin-top: 5px;
-      font-size: 0.9rem;
-    }
-
-    /* Middle Column (3D Viewers) */
-    .center-col {
-      width: 76%;
-      display: flex;
-      flex-direction: column;
-      gap: 15px; /* Gap between rows */
-    }
-
-    .morph-row {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: #fafafa;
-      padding: 5px;
-      border-radius: 8px;
-      position: relative;
-    }
-    
-    /* Row Label (Vertical Text) */
+    /* 行标签 (竖排文字) */
     .row-title {
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      font-size: 0.75rem;
-      font-weight: bold;
-      color: #555;
-      padding: 0 5px;
-      white-space: nowrap;
-      text-align: center;
-      height: 150px;
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      font-size: 0.75rem; font-weight: bold; color: #555;
+      width: 25px; text-align: center; white-space: nowrap;
     }
 
-    /* Model Viewer Customization */
-    model-viewer {
-      flex: 1; /* Distribute space evenly */
-      height: 150px;
-      background-color: #fff;
-      border-radius: 4px;
-      --poster-color: transparent;
+    /* --- 🌟 交互式格子 (Facade Pattern) --- */
+    .morph-cell {
+      flex: 1; /* 让格子平分宽度 */
+      height: 140px; /* 格子高度，可根据需要调整 */
+      background: #f0f0f0;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer; /* 变成手型光标 */
+      border: 1px solid #eee;
     }
 
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .morph-grid-container { flex-direction: column; }
-      .side-col { width: 50%; margin-bottom: 10px; }
-      .center-col { width: 100%; }
-      .row-title { writing-mode: horizontal-tb; transform: none; height: auto; width: 100%; margin-bottom: 5px; }
-      .morph-row { flex-wrap: wrap; justify-content: center; }
-      model-viewer { min-width: 100px; height: 120px; }
+    /* 静态封面图 */
+    .morph-cell img.poster {
+      width: 100%; height: 100%; object-fit: cover; display: block;
     }
-  /* 让 Poster 覆盖整个区域 */
-  .custom-poster {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-size: cover; /* 确保图片铺满 */
-  }
-  
-  /* 按钮样式 */
-  .poster-btn {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s;
-    pointer-events: auto; /* 关键：确保能被点到 */
-    border: 1px solid rgba(255,255,255,0.5);
-  }
-  
-  .poster-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
-  }
+
+    /* 悬浮遮罩层 */
+    .morph-cell .overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .morph-cell:hover .overlay { opacity: 1; }
+
+    /* 按钮样式 */
+    .btn-3d {
+      background: white; color: #333; padding: 6px 12px; border-radius: 20px;
+      font-size: 12px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      transform: translateY(10px); transition: transform 0.2s;
+    }
+    .morph-cell:hover .btn-3d { transform: translateY(0); }
+
+    /* 激活后的 Model Viewer 样式 */
+    model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
+
   </style>
 </head>
 <body>
@@ -278,62 +172,111 @@
       </p>
     </div>
 
-    <div class="content-block">
+<div class="content-block">
       <h2>Interactive Results</h2>
-      <p style="margin-bottom: 30px;">
-        Below are interactive 3D visualizations. 
-        <strong>Click and drag</strong> to rotate the models. Scroll to zoom.
-      </p>
+      <p><strong>Click on any image below</strong> to load the interactive 3D model.</p>
 
       <div class="morph-case">
         <div class="morph-grid-container">
           
           <div class="side-col">
-            <img src="./static/images/magic.png" alt="Source">
-            <div class="side-label">Source</div>
+            <img src="./static/images/source_book.png" alt="Source">
+            <div>Source</div>
           </div>
 
           <div class="center-col">
             
             <div class="morph-row">
               <div class="row-title">Preserve<br>Source</div>
-              <model-viewer src="./static/models/magic_castle/m1_0.glb" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg"><div slot="poster" style="position: relative; width: 100%; height: 100%; cursor: pointer;"><img src="./static/models/magic_castle/m1_0.png" style="width: 100%; height: 100%; object-fit: cover; display: block;"><div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.7); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: bold; pointer-events: none;"><i class="fas fa-cube"></i> Click to View 3D</div></div></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_1.glb" poster="./static/models/magic_castle/m1_1.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_2.glb" poster="./static/models/magic_castle/m1_2.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 2m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_3.glb" poster="./static/models/magic_castle/m1_3.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_4.glb" poster="./static/models/magic_castle/m1_4.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_5.glb" poster="./static/models/magic_castle/m1_5.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m1_6.glb" poster="./static/models/magic_castle/m1_6.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
+              
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_0.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_0.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+              
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_1.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_1.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_2.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_2.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+
+               <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_3.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_3.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_4.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_4.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+              
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_5.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_5.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m1_6.glb')">
+                <img class="poster" src="./static/models/magic_castle/m1_6.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+
             </div>
 
             <div class="morph-row">
               <div class="row-title">Blend<br>Target</div>
-              <model-viewer src="./static/models/magic_castle/m2_0.glb" poster="./static/models/magic_castle/m2_0.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m2_1.glb" poster="./static/models/magic_castle/m2_1.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m2_2.glb" poster="./static/models/magic_castle/m2_2.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 2m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m2_3.glb" poster="./static/models/magic_castle/m2_3.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m2_4.glb" poster="./static/models/magic_castle/m2_4.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m2_5.glb" poster="./static/models/magic_castle/m2_5.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-              <model-viewer src="./static/models/magic_castle/m2_6.glb" poster="./static/models/magic_castle/m2_6.png" exposure="3.0" shadow-intensity="0" camera-orbit="0deg 75deg 4m" field-of-view="30deg" reveal="interaction" loading="lazy" camera-controls touch-action="pan-y"></model-viewer>
-            </div>
+              
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_0.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_0.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+              
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_1.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_1.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
 
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_2.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_2.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_3.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_3.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+                <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_4.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_4.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+              <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_5.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_5.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+                <div class="morph-cell" onclick="activate3D(this, './static/models/magic_castle/m2_6.glb')">
+                <img class="poster" src="./static/models/magic_castle/m2_6.png">
+                <div class="overlay"><div class="btn-3d"><i class="fas fa-cube"></i> View 3D</div></div>
+              </div>
+
+            </div>
           </div>
 
           <div class="side-col">
-            <img src="./static/images/castle.png" alt="Target">
-            <div class="side-label">Target</div>
+            <img src="./static/images/target_castle.png" alt="Target">
+            <div>Target</div>
           </div>
 
         </div>
-        <p class="caption">
-          <strong>Case 1.</strong> Morphing from a magic book to a castle The top row preserves the book's material, while the bottom row transitions to the castle's scales.
-        </p>
+        <p class="caption">Case 1. Morphing from a magic book to a castle.</p>
       </div>
       </div>
 
     <div class="content-block">
       <h2>Citation</h2>
       <div class="abstract-box" style="text-align: left; font-family: monospace; background: #eee;">
+@article{Name2025Morphing,
 @article{YourName2024Morphing,
   title={Textured 3D Morphing by Flow Model},
   author={Your Name and Co-Author},
@@ -343,9 +286,37 @@
       </div>
     </div>
 
-    <footer style="margin-top: 50px; padding: 20px; color: #888; font-size: 0.8rem;">
-      <p>This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</p>
-    </footer>
+</div> <script>
+    /**
+     * activate3D
+     * 作用：点击图片时，将 div 内部的图片替换为 model-viewer 组件
+     * @param {HTMLElement} element - 被点击的 div 元素 (this)
+     * @param {String} glbUrl - 对应的 GLB 文件路径
+     */
+    function activate3D(element, glbUrl) {
+      // 1. 构建 Model Viewer 的 HTML 字符串
+      // 这里配置了：高曝光(3.0)，无阴影(0)，自动旋转，相机自适应(auto)
+      const viewerHtml = `
+        <model-viewer 
+          src="${glbUrl}" 
+          exposure="3.0" 
+          shadow-intensity="0" 
+          camera-orbit="0deg 75deg auto" 
+          camera-controls 
+          auto-rotate
+          touch-action="pan-y">
+        </model-viewer>
+      `;
+
+      // 2. 替换内容
+      element.innerHTML = viewerHtml;
+
+      // 3. 移除点击事件，避免重复加载
+      element.onclick = null;
+      element.style.cursor = "default";
+    }
+  </script>
+
 
   </div>
 
