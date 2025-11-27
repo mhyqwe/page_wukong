@@ -26,7 +26,7 @@
     h1 { font-size: 2.5rem; margin-top: 40px; }
     h2 { font-size: 1.75rem; margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
     
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .container { max-width: 95%; margin: 0 auto; padding: 0 20px; }
     .content-block { margin-bottom: 50px; text-align: center; }
     
     /* --- 按钮与链接 --- */
@@ -51,7 +51,7 @@
     .side-col img { width: 100%; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 5px; }
 
     /* 中间 3D 展示栏 */
-    .center-col { flex-grow: 1; display: flex; flex-direction: column; gap: 10px; max-width: 900px; }
+    .center-col { flex-grow: 1; display: flex; flex-direction: column; gap: 10px; width: 100%; }
     .morph-row { display: flex; align-items: center; gap: 5px; }
     
     /* 行标签 (竖排文字) */
@@ -64,7 +64,7 @@
     /* --- 🌟 交互式格子 (Facade Pattern) --- */
     .morph-cell {
       flex: 1; /* 让格子平分宽度 */
-      height: 140px; /* 格子高度，可根据需要调整 */
+      height: 200px; /* 格子高度，可根据需要调整 */
       background: #f0f0f0;
       border-radius: 6px;
       overflow: hidden;
