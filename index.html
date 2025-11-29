@@ -43,7 +43,7 @@
     .caption { font-size: 0.9rem; color: #666; margin-top: 10px; }
 
     /* --- 核心：Morphing Grid 布局 --- */
-    .morph-case { margin-bottom: 60px; border-bottom: 1px solid #eee; padding-bottom: 40px; }
+    .morph-case { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
     .morph-grid-container { display: flex; align-items: center; gap: 10px; justify-content: center; }
 
     /* 左右侧图片栏 */
@@ -118,9 +118,13 @@
       </div>
 
       <div class="link-buttons">
-        <a href="#" class="btn">
+        <a href="./static/paper.pdf" class="btn">
           <span class="icon"><i class="fas fa-file-pdf"></i></span>
           <span>Paper</span>
+        </a>
+        <a href="./static/video_supp.mp4" class="btn">
+          <span class="icon"><i class="ai ai-arxiv"></i></span>
+          <span>Video</span>
         </a>
         <a href="#" class="btn">
           <span class="icon"><i class="ai ai-arxiv"></i></span>
@@ -1339,13 +1343,13 @@
 
     <div class="content-block">
       <h2>Citation</h2>
-      <div class="abstract-box" style="text-align: left; font-family: monospace; background: #eee;">
+      <pre style="background: #f5f5f5; padding: 20px; border-radius: 10px; text-align: left; font-family: monospace; font-size: 0.9rem; overflow-x: auto;">
 @inproceedings{yinwukong,
   title={Wukong's 72 Transformations: High-fidelity Textured 3D Morphing via Flow Models},
   author={Yin, Minghao and Cao, Yukang and Han, Kai},
   booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems}
 }
-      </div>
+      </pre>
     </div>
 
 </div> <script>
